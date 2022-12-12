@@ -1,0 +1,16 @@
+# CMake generation dependency list for this directory.
+Z:/MyCompany/MyGame/cocos2d/cocos/2d/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/cocos/3d/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/cocos/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/cocos/audio/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/cocos/base/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/cocos/editor-support/cocostudio/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/cocos/math/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/cocos/navmesh/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/cocos/network/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/cocos/physics/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/cocos/physics3d/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/cocos/platform/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/cocos/renderer/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/cocos/ui/CMakeLists.txt
+Z:/MyCompany/MyGame/cocos2d/extensions/CMakeLists.txt
