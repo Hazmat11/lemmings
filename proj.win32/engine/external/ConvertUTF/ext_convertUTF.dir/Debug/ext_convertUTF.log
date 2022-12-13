@@ -1,4 +1,3 @@
-﻿  Building Custom Rule Z:/MyCompany/MyGame/cocos2d/external/ConvertUTF/CMakeLists.txt
-  ConvertUTF.c
+﻿  ConvertUTF.c
   ConvertUTFWrapper.cpp
   ext_convertUTF.vcxproj -> Z:\MyCompany\MyGame\proj.win32\lib\Debug\ext_convertUTF.lib

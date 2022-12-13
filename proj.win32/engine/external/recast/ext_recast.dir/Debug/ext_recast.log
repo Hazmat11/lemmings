@@ -1,5 +1,4 @@
-﻿  Building Custom Rule Z:/MyCompany/MyGame/cocos2d/external/recast/CMakeLists.txt
-  DebugDraw.cpp
+﻿  DebugDraw.cpp
   DetourDebugDraw.cpp
   DetourAlloc.cpp
   DetourCommon.cpp

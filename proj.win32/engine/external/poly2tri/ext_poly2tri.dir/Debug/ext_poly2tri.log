@@ -1,5 +1,4 @@
-﻿  Building Custom Rule Z:/MyCompany/MyGame/cocos2d/external/poly2tri/CMakeLists.txt
-  shapes.cc
+﻿  shapes.cc
   sweep.cc
   sweep_context.cc
   cdt.cc

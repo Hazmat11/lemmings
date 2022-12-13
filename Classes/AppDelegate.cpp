@@ -23,7 +23,6 @@
  ****************************************************************************/
 
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 
@@ -73,7 +72,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("MyGame", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+        glview = GLViewImpl::createWithRect("MyGame", cocos2d::Rect(0, 0, mediumResolutionSize.width, mediumResolutionSize.height));
 #else
         glview = GLViewImpl::create("MyGame");
 #endif
@@ -81,7 +80,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     // turn on display FPS
-    director->setDisplayStats(true);
+    //director->setDisplayStats(true);
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0f / 60);
@@ -108,11 +107,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
+    auto scene = MenuScene::createScene();
 
     // run
     director->runWithScene(scene);
-
     return true;
 }
 
@@ -133,3 +131,11 @@ void AppDelegate::applicationWillEnterForeground() {
     AudioEngine::resumeAll();
 #endif
 }
+
+//void AppDelegate::update(float dt) {
+//
+//    if (menu.changeScene == true) {
+//        auto scenegame = Game::createScene();
+//        Director::getInstance()->replaceScene(TransitionFade::create(0.5, scenegame, Color3B(0, 255, 255)));
+//    }
+//}
