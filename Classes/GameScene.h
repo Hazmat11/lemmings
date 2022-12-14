@@ -2,10 +2,13 @@
 #define GAME_SCENE
 
 #include "cocos2d.h"
+#include "Timer.h"
 
 class GameScene : public cocos2d::Scene
 {
 public:
+    TimerCountDown timer;
+
     static cocos2d::Scene* createScene();
 
     virtual bool init();

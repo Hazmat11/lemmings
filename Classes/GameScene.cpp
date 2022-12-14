@@ -70,7 +70,8 @@ void GameScene::test(Ref* pSender) {
     case 1 :
         Director::getInstance()->end();
     default:
-        cocos2d::log("nothing");
+        auto counting = TimerCountDown::createScene();
+        Director::getInstance()->replaceScene(TransitionFade::create(0.5, counting, Color3B(0, 0, 0)));
         break;
     }
 }
