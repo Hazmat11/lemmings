@@ -3,11 +3,12 @@
 
 #include "cocos2d.h"
 #include "Timer.h"
+#include "Pause.h"
+#include "Accelerate.h"
 
 class GameScene : public cocos2d::Scene
 {
 public:
-    TimerCountDown timer;
 
     static cocos2d::Scene* createScene();
 

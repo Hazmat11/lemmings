@@ -103,6 +103,7 @@ bool MenuScene::init()
         this->addChild(sprite, 0);
         
     }
+
     return true;
 }
 

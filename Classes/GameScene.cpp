@@ -15,21 +15,31 @@ static void problemLoading(const char* filename)
 
 bool GameScene::init()
 {
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
     if (!Scene::init())
     {
         return false;
     }
 
-    auto listener = EventListenerMouse::create();
-
-    listener->onMouseMove = [](cocos2d::Event* event) {
-        // Cast Event to EventMouse for position details like above
-        cocos2d::log("Mouse moved event");
-    };
-
-    _eventDispatcher->addEventListenerWithFixedPriority(listener, 1);
+    auto pause = Pause::create();
+    addChild(pause,1);
+    auto speedup = Accelerate::create();
+    addChild(speedup,1);
 
     HUD();
+
+    auto rectNode = DrawNode::create();
+    Vec2 rectangle[4];
+    rectangle[0] = Vec2(0, 0);
+    rectangle[1] = Vec2(visibleSize.width * 2, 0);
+    rectangle[2] = Vec2(0, 20);
+    rectangle[3] = Vec2(visibleSize.width * 2, 20);
+
+    Color4F white(1, 1, 1, 1);
+    rectNode->drawPolygon(rectangle, 4, white, 1, white);
+    this->addChild(rectNode,0);
 
     return true;
 }
@@ -57,8 +67,6 @@ void GameScene::HUD() {
             hud->setPosition(Vec2(x, y));
         }
 
-        //origin.y + visibleSize.height - label->getContentSize().height)
-
         auto play = Menu::create(hud, NULL);
         play->setPosition(Vec2::ZERO);
         this->addChild(play, 1);
@@ -70,8 +78,8 @@ void GameScene::test(Ref* pSender) {
     case 1 :
         Director::getInstance()->end();
     default:
-        auto counting = TimerCountDown::createScene();
-        Director::getInstance()->replaceScene(TransitionFade::create(0.5, counting, Color3B(0, 0, 0)));
+        auto counting = TimerCountDown::create();
+        addChild(counting);
         break;
     }
 }

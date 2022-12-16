@@ -19,6 +19,12 @@
     <ClCompile Include="Z:\MyCompany\MyGame\Classes\Timer.cpp">
       <Filter>Source Files\Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Pause.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Accelerate.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Z:\MyCompany\MyGame\Classes\AppDelegate.h">
@@ -55,6 +61,12 @@
       <Filter>Source Files\Classes</Filter>
     </ClInclude>
     <ClInclude Include="Z:\MyCompany\MyGame\Classes\Timer.h">
+      <Filter>Source Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Pause.h">
+      <Filter>Source Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Accelerate.h">
       <Filter>Source Files\Classes</Filter>
     </ClInclude>
   </ItemGroup>
