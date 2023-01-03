@@ -43,7 +43,7 @@ bool Accelerate::init()
 }
 
 void Accelerate::speedUp(Ref* pSender) {
-    scheduleUpdate();
+    /*scheduleUpdate();*/
 }
 
 void Accelerate::update(float dt) {
