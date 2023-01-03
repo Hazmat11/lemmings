@@ -157,21 +157,19 @@ void GameScene::HUD() {
 }
 
 void GameScene::test(Ref* pSender) {
-
+    auto actualPos = mySprite->getPosition();
     switch (i) {
     case 4 :
-        for (int i = 0; i < 32; ++i)
-        {
-            for (int j = 0; j < 24; ++j)
+        /*for (int i = 0; i < 9; i++) {
+            auto tile = layer->getTileAt(actualPos);
+            if (tile != nullptr)
             {
-                auto tile = layer->getTileAt(Vec2(i, j));
-                if (tile != nullptr)
-                {
-                    layer->removeTileAt(Vec2(13, 13));
-                }
-
+                layer->removeTileAt(actualPos);
             }
-        }
+            else {
+                actualPos.y += 50;
+            }
+        }*/
     default:
         break;
     }
