@@ -19,7 +19,7 @@ bool TimerCountDown::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    timertxt = Label::createWithTTF("cool", "fonts/Marker Felt.ttf", 20.0f);
+    timertxt = Label::createWithTTF("cool", "fonts/Marker Felt.ttf", 40.0f);
     timertxt->setTextColor(Color4B::RED);
 
     float x = origin.x + timertxt->getContentSize().width * 2;

@@ -23,6 +23,9 @@ public:
     bool onContactBegin(cocos2d::PhysicsContact& contact);
     cocos2d::Sprite* mySprite;
     cocos2d::Sprite* mySprite2;
+    cocos2d::TMXTiledMap* map;
+    cocos2d::TMXLayer* layer;
+
     bool CanMove = true;
 
     int i;

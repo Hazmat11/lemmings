@@ -27,7 +27,7 @@ bool MenuScene::init()
 
     /////////////////////////////
     // Bouton play
-    auto labelTitle = Label::createWithTTF("Play", "fonts/Marker Felt.ttf", 40);
+    auto labelTitle = Label::createWithTTF("Play", "fonts/Marker Felt.ttf", 80);
     auto playItem = MenuItemLabel::create(labelTitle, CC_CALLBACK_1(MenuScene::playGame, this));
 
     if (playItem == nullptr)
@@ -47,7 +47,7 @@ bool MenuScene::init()
     /////////////////////////////
    // Titre du jeu
 
-    auto label = Label::createWithTTF("Lemmings", "fonts/Marker Felt.ttf", 60);
+    auto label = Label::createWithTTF("Lemmings", "fonts/Marker Felt.ttf", 120);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");

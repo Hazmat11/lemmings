@@ -24,9 +24,9 @@ bool GameScene::init()
     }
 
     auto pause = Pause::create();
-    addChild(pause,1);
+    addChild(pause,2);
     auto speedup = Accelerate::create();
-    addChild(speedup,1);
+    addChild(speedup,2);
 
     HUD();
 
@@ -34,15 +34,15 @@ bool GameScene::init()
     Vec2 rectangle[4];
     rectangle[0] = Vec2(0, 0);
     rectangle[1] = Vec2(visibleSize.width * 2, 0);
-    rectangle[2] = Vec2(0, 20);
-    rectangle[3] = Vec2(visibleSize.width * 2, 20);
+    rectangle[2] = Vec2(0, 50);
+    rectangle[3] = Vec2(visibleSize.width * 2, 50);
 
     Color4F white(1, 1, 1, 1);
     rectNode->drawPolygon(rectangle, 4, white, 1, white);
     this->addChild(rectNode,1);
 
     auto counting = TimerCountDown::create();
-    addChild(counting, 21);
+    addChild(counting, 1);
 
     initWithPhysics();
     this->getPhysicsWorld()->setDebugDrawMask(true);
@@ -104,9 +104,9 @@ bool GameScene::init()
 
     }
     scheduleUpdate();
-    auto map = TMXTiledMap::create("map.tmx");
+    map = TMXTiledMap::create("map.tmx");
     this->addChild(map, 0, 99);
-    auto layer = map->getLayer("grd 1");
+    layer = map->getLayer("grd 1");
     for (int i = 0; i < 32; ++i)
     {
         for (int j = 0; j < 24; ++j)
@@ -152,14 +152,26 @@ void GameScene::HUD() {
 
         auto play = Menu::create(hud, NULL);
         play->setPosition(Vec2::ZERO);
-        this->addChild(play, 1);
+        this->addChild(play, 2);
     }
 }
 
 void GameScene::test(Ref* pSender) {
+
     switch (i) {
-    case 1 :
-        Director::getInstance()->end();
+    case 4 :
+        for (int i = 0; i < 32; ++i)
+        {
+            for (int j = 0; j < 24; ++j)
+            {
+                auto tile = layer->getTileAt(Vec2(i, j));
+                if (tile != nullptr)
+                {
+                    layer->removeTileAt(Vec2(13, 13));
+                }
+
+            }
+        }
     default:
         break;
     }
