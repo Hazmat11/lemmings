@@ -15,21 +15,114 @@ static void problemLoading(const char* filename)
 
 bool GameScene::init()
 {
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
     if (!Scene::init())
     {
         return false;
     }
 
-    auto listener = EventListenerMouse::create();
-
-    listener->onMouseMove = [](cocos2d::Event* event) {
-        // Cast Event to EventMouse for position details like above
-        cocos2d::log("Mouse moved event");
-    };
-
-    _eventDispatcher->addEventListenerWithFixedPriority(listener, 1);
+    auto pause = Pause::create();
+    addChild(pause,2);
+    auto speedup = Accelerate::create();
+    addChild(speedup,2);
 
     HUD();
+
+    auto rectNode = DrawNode::create();
+    Vec2 rectangle[4];
+    rectangle[0] = Vec2(0, 0);
+    rectangle[1] = Vec2(visibleSize.width * 2, 0);
+    rectangle[2] = Vec2(0, 50);
+    rectangle[3] = Vec2(visibleSize.width * 2, 50);
+
+    Color4F white(1, 1, 1, 1);
+    rectNode->drawPolygon(rectangle, 4, white, 1, white);
+    this->addChild(rectNode,1);
+
+    auto counting = TimerCountDown::create();
+    addChild(counting, 1);
+
+    initWithPhysics();
+    this->getPhysicsWorld()->setDebugDrawMask(true);
+
+    //add contact event listener
+    auto contactListener = EventListenerPhysicsContact::create();
+    contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
+
+
+
+    // add "HelloWorld" splash screen"
+    auto sprite = Sprite::create("forest.png");
+
+    if (sprite == nullptr)
+    {
+        problemLoading("'forest.png'");
+    }
+    else
+    {
+        // position the sprite on the center of the screen
+        sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+
+        // add the sprite as a child to this layer
+        this->addChild(sprite, 0);
+    }
+    auto physicsBody = PhysicsBody::createBox(Size(5.0f, 8.0f),
+        PhysicsMaterial(0.1f, 1.0f, 0.0f));
+    auto physicsBody2 = PhysicsBody::createBox(Size(5.0f, 8.0f),
+        PhysicsMaterial(0.1f, 1.0f, 0.0f));
+    mySprite = Sprite::create("perso.png", Rect(5, 0, 10, 8));
+    mySprite->addComponent(physicsBody);
+    mySprite->setScale(3.0);
+    mySprite->setTag(10);
+    mySprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
+    mySprite->getPhysicsBody()->setDynamic(true);
+    mySprite->getPhysicsBody()->setMass(50);
+    mySprite->getPhysicsBody()->setRotationEnable(false);
+    mySprite2 = Sprite::create("perso.png", Rect(5, 0, 10, 8));
+    mySprite2->addComponent(physicsBody2);
+    mySprite2->setScale(3.0);
+    //mySprite2->setTag(5);
+    mySprite2->getPhysicsBody()->setContactTestBitmask(0xFFFFFFF);
+    mySprite2->getPhysicsBody()->setDynamic(true);
+
+
+    if (mySprite == nullptr)
+    {
+        problemLoading("'perso.png'");
+    }
+    else
+    {
+        // position the sprite on the center of the screen
+        mySprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+        mySprite2->setPosition(Vec2(600, 400));
+        // add the sprite as a child to this layer
+        this->addChild(mySprite, 0);
+        this->addChild(mySprite2, 0);
+
+    }
+    scheduleUpdate();
+    map = TMXTiledMap::create("map.tmx");
+    this->addChild(map, 0, 99);
+    layer = map->getLayer("grd 1");
+    for (int i = 0; i < 32; ++i)
+    {
+        for (int j = 0; j < 24; ++j)
+        {
+            auto tile = layer->getTileAt(Vec2(i, j));
+            if (tile != nullptr)
+            {
+                PhysicsBody* physicmap = PhysicsBody::createBox(Size(32, 32),
+                    PhysicsMaterial(0.1f, 1.0f, 0.0f));
+                physicmap->setDynamic(false);
+                tile->addComponent(physicmap);
+                tile->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
+            }
+
+        }
+    }
 
     return true;
 }
@@ -57,21 +150,66 @@ void GameScene::HUD() {
             hud->setPosition(Vec2(x, y));
         }
 
-        //origin.y + visibleSize.height - label->getContentSize().height)
-
         auto play = Menu::create(hud, NULL);
         play->setPosition(Vec2::ZERO);
-        this->addChild(play, 1);
+        this->addChild(play, 2);
     }
 }
 
 void GameScene::test(Ref* pSender) {
+    auto actualPos = mySprite->getPosition();
     switch (i) {
-    case 1 :
-        Director::getInstance()->end();
+    case 4 :
+        /*for (int i = 0; i < 9; i++) {
+            auto tile = layer->getTileAt(actualPos);
+            if (tile != nullptr)
+            {
+                layer->removeTileAt(actualPos);
+            }
+            else {
+                actualPos.y += 50;
+            }
+        }*/
     default:
-        /*auto counting = TimerCountDown::createScene();
-        Director::getInstance()->replaceScene(TransitionFade::create(0.5, counting, Color3B(0, 0, 0)));*/
         break;
     }
+}
+
+void GameScene::update(float dt)
+{
+    if (CanMove == true)
+    {
+
+        auto position = mySprite->getPositionX();
+
+    }
+}
+
+void GameScene::menuCloseCallback(Ref* pSender)
+{
+    Director::getInstance()->end();
+
+}
+
+bool GameScene::onContactBegin(PhysicsContact& contact)
+{
+    auto nodeA = contact.getShapeA()->getBody()->getNode();
+    auto nodeB = contact.getShapeB()->getBody()->getNode();
+
+    if (nodeA && nodeB)
+    {
+        if (nodeA->getTag() == 10)
+        {
+            CanMove = false;
+            mySprite->getPhysicsBody()->setVelocity(Vec2(50, -5));
+            //nodeB->removeFromParentAndCleanup(false);
+        }
+        else if (nodeB->getTag() == 10)
+        {
+            //nodeA->removeFromParentAndCleanup(true);
+        }
+    }
+
+    //bodies can collide
+    return true;
 }
