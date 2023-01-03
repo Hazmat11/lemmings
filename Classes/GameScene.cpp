@@ -20,35 +20,58 @@ bool GameScene::init()
         return false;
     }
 
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    auto listener = EventListenerMouse::create();
 
-    auto mouseListener = EventListenerMouse::create();
-    mouseListener->onMouseMove = CC_CALLBACK_1(GameScene::menuCloseCallback, this);
-    scheduleUpdate();
-    
+    listener->onMouseMove = [](cocos2d::Event* event) {
+        // Cast Event to EventMouse for position details like above
+        cocos2d::log("Mouse moved event");
+    };
+
+    _eventDispatcher->addEventListenerWithFixedPriority(listener, 1);
+
+    HUD();
+
     return true;
 }
 
-void GameScene::onMouseMove(Event* event)
-{
-    EventMouse* e = (EventMouse*)event;
-    Director::getInstance()->end();
+void GameScene::HUD() {
+
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    imageLocation = { "mining.png", "explosion.png", "ladder.png", "miningfront.png"};
+
+    for (i = 0; i < 4; i++) {
+        auto hud = MenuItemImage::create(imageLocation[i], imageLocation[i], CC_CALLBACK_1(GameScene::test, this));
+
+        if (hud == nullptr ||
+            hud->getContentSize().width <= 0 ||
+            hud->getContentSize().height <= 0)
+        {
+            problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
+        }
+        else
+        {
+            float x = origin.x + visibleSize.width / 2 + hud->getContentSize().width * i - 40;
+            float y = origin.y + hud->getContentSize().height / 2;
+            hud->setPosition(Vec2(x, y));
+        }
+
+        //origin.y + visibleSize.height - label->getContentSize().height)
+
+        auto play = Menu::create(hud, NULL);
+        play->setPosition(Vec2::ZERO);
+        this->addChild(play, 1);
+    }
 }
 
-void GameScene::update(float dt) {
-    std::cout << "etoh";
-}
-
-void GameScene::menuCloseCallback(Ref* pSender)
-{
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
-
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
-
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
-
-
+void GameScene::test(Ref* pSender) {
+    switch (i) {
+    case 1 :
+        Director::getInstance()->end();
+    default:
+        /*auto counting = TimerCountDown::createScene();
+        Director::getInstance()->replaceScene(TransitionFade::create(0.5, counting, Color3B(0, 0, 0)));*/
+        break;
+    }
 }

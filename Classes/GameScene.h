@@ -2,19 +2,24 @@
 #define GAME_SCENE
 
 #include "cocos2d.h"
-#include <iostream>
+//#include "Timer.h"
 
 class GameScene : public cocos2d::Scene
 {
 public:
+    //TimerCountDown timer;
+
     static cocos2d::Scene* createScene();
 
     virtual bool init();
-    void onMouseMove(cocos2d::Event* event);
-    void update(float dt);
+    void HUD();
+
+    int i;
 
     // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
+    void test(cocos2d::Ref* pSender);
+
+    std::vector<std::string> imageLocation;
 
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);
