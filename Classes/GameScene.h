@@ -16,28 +16,25 @@ public:
 
     virtual bool init();
     void HUD();
-
+    void rectMenu();
+    void lemmings();
     void update(float dt);
-<<<<<<< HEAD
-    bool onContactBegin(cocos2d::PhysicsContact& contact);
-    void HUDSelection(cocos2d::Ref* pSender);
-
-=======
-
     void menuCloseCallback(cocos2d::Ref* pSender);
     bool onContactBegin(cocos2d::PhysicsContact& contact);
->>>>>>> parent of d89da53 (semi working explosion)
+    void test(cocos2d::Ref* pSender);
+
     cocos2d::Sprite* mySprite;
+    cocos2d::Sprite* tile;
     cocos2d::Sprite* mySprite2;
     cocos2d::TMXTiledMap* map;
     cocos2d::TMXLayer* layer;
+    cocos2d::Vec2 origin;
+    cocos2d::Size visibleSize;
+    cocos2d::Rect* lemmingsRect;
+    cocos2d::EventListenerPhysicsContact* contactListener;
 
     bool CanMove = true;
-
     int i;
-
-    // a selector callback
-    void test(cocos2d::Ref* pSender);
 
     std::vector<std::string> imageLocation;
 

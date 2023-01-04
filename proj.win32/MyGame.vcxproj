@@ -812,12 +812,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\Classes\Accelerate.h" />
     <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\Pause.h" />
+    <ClInclude Include="..\Classes\Timer.h" />
     <ClInclude Include="Z:\MyCompany\MyGame\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\MenuScene.h" />
     <ClInclude Include="Z:\MyCompany\MyGame\proj.win32\main.h" />
     <ClInclude Include="Z:\MyCompany\MyGame\proj.win32\resource.h" />
     <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\Pause.cpp" />
+    <ClCompile Include="..\Classes\Timer.cpp" />
     <ClCompile Include="Accelerate.cpp" />
     <ClCompile Include="Z:\MyCompany\MyGame\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\MenuScene.cpp" />
