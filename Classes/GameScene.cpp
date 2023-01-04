@@ -64,25 +64,19 @@ void GameScene::HUD() {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    imageLocation = { "mining.png", "explosion.png", "ladder.png", "miningfront.png"};
+    imageLocation = { "mining.png", "explosion.png", "ladder.png", "miningfront.png" };
 
+    hud = {
+    hud1 = MenuItemImage::create(imageLocation[0], imageLocation[0], CC_CALLBACK_1(GameScene::Mining, this)),
+    hud2 = MenuItemImage::create(imageLocation[1], imageLocation[1], CC_CALLBACK_1(GameScene::Explosion, this)),
+    hud3 = MenuItemImage::create(imageLocation[2], imageLocation[2], CC_CALLBACK_1(GameScene::Miningfront, this)),
+    hud4 = MenuItemImage::create(imageLocation[3], imageLocation[3], CC_CALLBACK_1(GameScene::Ladder, this)),
+    };
     for (i = 0; i < 4; i++) {
-        auto hud = MenuItemImage::create(imageLocation[i], imageLocation[i], CC_CALLBACK_1(GameScene::test, this));
-
-        if (hud == nullptr ||
-            hud->getContentSize().width <= 0 ||
-            hud->getContentSize().height <= 0)
-        {
-            problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-        }
-        else
-        {
-            float x = origin.x + visibleSize.width / 2 + hud->getContentSize().width * i - 40;
-            float y = origin.y + hud->getContentSize().height / 2;
-            hud->setPosition(Vec2(x, y));
-        }
-
-        auto play = Menu::create(hud, NULL);
+        float x = origin.x + visibleSize.width / 2 + hud[i]->getContentSize().width * i - 40;
+        float y = origin.y + hud[i]->getContentSize().height / 2;
+        hud[i]->setPosition(Vec2(x, y));
+        play = Menu::create(hud[i], NULL);
         play->setPosition(Vec2::ZERO);
         this->addChild(play, 2);
     }
@@ -163,28 +157,34 @@ void GameScene::lemmings() {
 }
 
 
-void GameScene::test(Ref* pSender) {
+void GameScene::Explosion(Ref* pSender) {
     auto lemmingsRect = mySprite->getBoundingBox();
-    switch (i) {
-    case 4:
-        for (int i = 0; i < 32; ++i)
+    for (int i = 0; i < 32; ++i)
+    {
+        for (int j = 0; j < 24; ++j)
         {
-            for (int j = 0; j < 24; ++j)
+            tile = layer->getTileAt(Vec2(i, j));
+            if (tile != nullptr)
             {
-                tile = layer->getTileAt(Vec2(i, j));
-                if (tile != nullptr)
-                {
-                    auto tileRect = tile->getBoundingBox();
-                    if (tileRect.intersectsRect(lemmingsRect)){
-                        CCLOG("merde");
-                        layer->removeTileAt(Vec2(i, j));
-                    }
+                auto tileRect = tile->getBoundingBox();
+                if (tileRect.intersectsRect(lemmingsRect)) {
+                    layer->removeTileAt(Vec2(i, j));
                 }
             }
         }
-    default:
-        break;
     }
+}
+
+void GameScene::Mining(cocos2d::Ref* pSender)
+{
+}
+
+void GameScene::Miningfront(cocos2d::Ref* pSender)
+{
+}
+
+void GameScene::Ladder(cocos2d::Ref* pSender)
+{
 }
 
 void GameScene::update(float dt)
