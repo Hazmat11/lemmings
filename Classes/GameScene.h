@@ -1,5 +1,6 @@
 #ifndef GAME_SCENE
 #define GAME_SCENE
+#define nbLemmings 5
 
 #include "cocos2d.h"
 #include "Timer.h"
@@ -21,22 +22,24 @@ public:
     void lemmings();
     void update(float dt);
     bool onContactBegin(cocos2d::PhysicsContact& contact);
-    void HUDSelector(cocos2d::Ref* pSender);
     void GameScene::SpawnLemmings(void);
     void Explosion(cocos2d::Ref* pSender);
     void Mining(cocos2d::Ref* pSender);
     void Miningfront(cocos2d::Ref* pSender);
     void Ladder(cocos2d::Ref* pSender);
+    void selectionMode();
+    void onMouseUp(cocos2d::Event* event);
 
-
-    std::vector<cocos2d::Sprite*> perso2;
     cocos2d::Sprite* mySprite;
     cocos2d::Sprite* tile;
     cocos2d::Sprite* mySprite2;
-    std::vector<cocos2d::Sprite*> perso;
+    std::vector<cocos2d::Sprite*> Player;
     cocos2d::TMXTiledMap* map;
-    cocos2d::TMXLayer* layer;
+    cocos2d::TMXLayer* layerground;
+    cocos2d::TMXLayer* layerwall;
     cocos2d::Vec2 origin;
+    cocos2d::Rect lemmingsPos;
+    cocos2d::Vec2 p;
     cocos2d::Menu* play;
     cocos2d::Size visibleSize;
     cocos2d::Rect* lemmingsRect;

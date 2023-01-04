@@ -16,7 +16,7 @@ static void problemLoading(const char* filename)
 bool GameScene::init()
 {
     visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+    origin = Director::getInstance()->getVisibleOrigin();;
 
     if (!Scene::init())
     {
@@ -38,12 +38,12 @@ bool GameScene::init()
 
     map = TMXTiledMap::create("map.tmx");
     this->addChild(map, 0, 99);
-    layer = map->getLayer("grd 1");
+    layerground = map->getLayer("grd 1");
     for (int i = 0; i < 32; ++i)
     {
         for (int j = 0; j < 24; ++j)
         {
-            auto tile = layer->getTileAt(Vec2(i, j));
+            tile = layerground->getTileAt(Vec2(i, j));
             if (tile != nullptr)
             {
                 PhysicsBody* physicmap = PhysicsBody::createBox(Size(32, 32),
@@ -55,12 +55,12 @@ bool GameScene::init()
 
         }
     }
-    layer = map->getLayer("wall");
+    layerwall = map->getLayer("wall");
     for (int i = 0; i < 32; ++i)
     {
         for (int j = 0; j < 24; ++j)
         {
-            auto tile = layer->getTileAt(Vec2(i, j));
+            tile = layerwall->getTileAt(Vec2(i, j));
             if (tile != nullptr)
             {
                 PhysicsBody* physicmap = PhysicsBody::createBox(Size(32, 32),
@@ -136,6 +136,9 @@ void GameScene::lemmings() {
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }
+
+    /// ///////////////////////////////
+
     auto physicsBody = PhysicsBody::createBox(Size(5.0f, 8.0f),
         PhysicsMaterial(0.1f, 1.0f, 0.0f));
     auto physicsBody2 = PhysicsBody::createBox(Size(5.0f, 8.0f),
@@ -157,25 +160,6 @@ void GameScene::lemmings() {
     mySprite2->getPhysicsBody()->setContactTestBitmask(0xFFFFFFF);
     mySprite2->getPhysicsBody()->setDynamic(true);
 
-    //for (int p = 0; p < 100; p++)
-    //{
-    //    auto physicsPerso = PhysicsBody::createBox(Size(5.0f, 8.0f),
-    //        PhysicsMaterial(0.1f, 1.0f, 0.0f));
-    //    perso.push_back(Sprite::create("perso.png", Rect(5, 0, 10, 8)));
-    //    perso[p]->addComponent(physicsPerso);
-    //    perso[p]->setScale(3.0);
-    //    perso[p]->setTag(10);
-    //    perso[p]->getPhysicsBody()->setContactTestBitmask(0xFFFFFF0F);
-    //    perso[p]->getPhysicsBody()->setDynamic(true);
-    //    perso[p]->getPhysicsBody()->setMass(50);
-    //    perso[p]->getPhysicsBody()->setRotationEnable(false);
-    //    perso[p]->setPosition(Vec2(500, 400));
-    //    this->addChild(perso[p], 0);
-    //    perso[p]->getPhysicsBody()->setVelocity(Vec2(50+p, -5));
-    //}
-
-
-
     if (mySprite == nullptr)
     {
         problemLoading("'perso.png'");
@@ -190,6 +174,9 @@ void GameScene::lemmings() {
         this->addChild(mySprite2, 0);
 
     }
+
+    /// ///////////////////////////////
+
     scheduleUpdate();
  
 }
@@ -197,36 +184,18 @@ void GameScene::lemmings() {
 
 
 void GameScene::Explosion(Ref* pSender) {
+    selectionMode();
     auto lemmingsRect = mySprite->getBoundingBox();
-    switch (i) {
-    case 4:
-        for (int i = 0; i < 32; ++i)
-        {
-            for (int j = 0; j < 24; ++j)
-            {
-                tile = layer->getTileAt(Vec2(i, j));
-                if (tile != nullptr)
-                {
-                    auto tileRect = tile->getBoundingBox();
-                    if (tileRect.intersectsRect(lemmingsRect)){
-                        layer->removeTileAt(Vec2(i, j));
-                    }
-                }
-            }
-        }
-    default:
-        break;
-    }
     for (int i = 0; i < 32; ++i)
     {
         for (int j = 0; j < 24; ++j)
         {
-            tile = layer->getTileAt(Vec2(i, j));
+            tile = layerground->getTileAt(Vec2(i, j));
             if (tile != nullptr)
             {
                 auto tileRect = tile->getBoundingBox();
                 if (tileRect.intersectsRect(lemmingsRect)) {
-                    layer->removeTileAt(Vec2(i, j));
+                    layerground->removeTileAt(Vec2(i, j));
                 }
             }
         }
@@ -245,24 +214,32 @@ void GameScene::Ladder(cocos2d::Ref* pSender)
 {
 }
 
+void GameScene::selectionMode()
+{
+    for (int a = 0;a < nbLemmings; a++ )
+    {
+        Player[a]->getBoundingBox();        
+    }
+}
+
 void GameScene::SpawnLemmings()
 {
-    if (persoCount < 100)
+    if (persoCount < nbLemmings)
     {
-
-        auto physicsPerso2 = PhysicsBody::createBox(Size(5.0f, 8.0f),
+        auto physicsPlayer = PhysicsBody::createBox(Size(5.0f, 8.0f),
             PhysicsMaterial(0.1f, 1.0f, 0.0f));
-        perso2.push_back(Sprite::create("perso.png", Rect(5, 0, 10, 8)));
-        perso2[persoCount]->addComponent(physicsPerso2);
-        perso2[persoCount]->setScale(3.0);
-        perso2[persoCount]->setTag(10);
-        perso2[persoCount]->getPhysicsBody()->setContactTestBitmask(0xFFFFFF0F);
-        perso2[persoCount]->getPhysicsBody()->setDynamic(true);
-        perso2[persoCount]->getPhysicsBody()->setMass(50);
-        perso2[persoCount]->getPhysicsBody()->setRotationEnable(false);
-        perso2[persoCount]->setPosition(Vec2(300, 500));
-        this->addChild(perso2[persoCount], 0);
-        perso2[persoCount]->getPhysicsBody()->setVelocity(Vec2(50 + persoCount, 0));
+        Player.push_back(Sprite::create("perso.png", Rect(5, 0, 10, 8)));
+        Player[persoCount]->addComponent(physicsPlayer);
+        Player[persoCount]->setScale(3.0);
+        Player[persoCount]->setTag(10);
+        Player[persoCount]->getPhysicsBody()->setContactTestBitmask(0xFFFFFF0F);
+        Player[persoCount]->getPhysicsBody()->setDynamic(true);
+        Player[persoCount]->getPhysicsBody()->setMass(50);
+        Player[persoCount]->getPhysicsBody()->setRotationEnable(false);
+        Player[persoCount]->setPosition(Vec2(300, 500));
+        this->addChild(Player[persoCount], 0);
+        Player[persoCount]->getPhysicsBody()->setVelocity(Vec2(10, 0));
+        lemmingsPos = Player[persoCount]->getBoundingBox();
         persoCount++;
     }
 }
@@ -274,11 +251,35 @@ void GameScene::update(float dt)
         SpawnLemmings();
         chrono = 0;
     }
-    
+
     if (CanMove == true)
     {
         auto position = mySprite->getPositionX();
     }
+
+    auto listener = EventListenerMouse::create();
+
+    _eventDispatcher->addEventListenerWithFixedPriority(listener, 1);
+    listener->onMouseMove = CC_CALLBACK_1(GameScene::onMouseUp, this);
+
+    if (lemmingsPos.containsPoint(p) && Player.size() > 1) {
+        std::cout << "nothings";
+    }
+}
+
+void GameScene::onMouseUp(Event* event)
+{
+    auto* e = dynamic_cast<EventMouse*>(event);
+    switch (e->getMouseButton()) {
+    case EventMouse::MouseButton::BUTTON_LEFT:
+    {
+        auto p = e->getLocation();
+        std::cout << "nul";
+        break;
+    }
+    default:
+        break;
+    };
 }
 
 bool GameScene::onContactBegin(PhysicsContact& contact)
