@@ -16,13 +16,13 @@
     <ClCompile Include="..\Classes\GameScene.cpp">
       <Filter>Source Files\Classes</Filter>
     </ClCompile>
+    <ClCompile Include="Z:\MyCompany\MyGame\Classes\Timer.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\Pause.cpp">
       <Filter>Source Files\Classes</Filter>
     </ClCompile>
     <ClCompile Include="Accelerate.cpp">
-      <Filter>Source Files\Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Timer.cpp">
       <Filter>Source Files\Classes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -60,13 +60,13 @@
     <ClInclude Include="..\Classes\GameScene.h">
       <Filter>Source Files\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Z:\MyCompany\MyGame\Classes\Timer.h">
+      <Filter>Source Files\Classes</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\Pause.h">
       <Filter>Source Files\Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Accelerate.h">
-      <Filter>Source Files\Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Timer.h">
       <Filter>Source Files\Classes</Filter>
     </ClInclude>
   </ItemGroup>
