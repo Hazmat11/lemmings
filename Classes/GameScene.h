@@ -7,6 +7,7 @@
 #include <CCScheduler.h>
 #include <vector>
 #include "Accelerate.h"
+#include <iostream>
 
 class GameScene : public cocos2d::Scene
 {
@@ -19,9 +20,12 @@ public:
     void rectMenu();
     void lemmings();
     void update(float dt);
-    void menuCloseCallback(cocos2d::Ref* pSender);
     bool onContactBegin(cocos2d::PhysicsContact& contact);
-    void test(cocos2d::Ref* pSender);
+    void Explosion(cocos2d::Ref* pSender);
+    void Mining(cocos2d::Ref* pSender);
+    void Miningfront(cocos2d::Ref* pSender);
+    void Ladder(cocos2d::Ref* pSender);
+
 
     cocos2d::Sprite* mySprite;
     cocos2d::Sprite* tile;
@@ -29,14 +33,20 @@ public:
     cocos2d::TMXTiledMap* map;
     cocos2d::TMXLayer* layer;
     cocos2d::Vec2 origin;
+    cocos2d::Menu* play;
     cocos2d::Size visibleSize;
     cocos2d::Rect* lemmingsRect;
     cocos2d::EventListenerPhysicsContact* contactListener;
+    cocos2d::MenuItemImage* hud1;
+    cocos2d::MenuItemImage* hud2;
+    cocos2d::MenuItemImage* hud3;
+    cocos2d::MenuItemImage* hud4;
 
     bool CanMove = true;
     int i;
 
     std::vector<std::string> imageLocation;
+    std::vector<cocos2d::MenuItemImage*> hud;
 
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);
