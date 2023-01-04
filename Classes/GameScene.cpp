@@ -55,6 +55,23 @@ bool GameScene::init()
 
         }
     }
+    layer = map->getLayer("wall");
+    for (int i = 0; i < 32; ++i)
+    {
+        for (int j = 0; j < 24; ++j)
+        {
+            auto tile = layer->getTileAt(Vec2(i, j));
+            if (tile != nullptr)
+            {
+                PhysicsBody* physicmap = PhysicsBody::createBox(Size(32, 32),
+                    PhysicsMaterial(0.1f, 1.0f, 0.0f));
+                physicmap->setDynamic(false);
+                tile->addComponent(physicmap);
+                tile->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
+            }
+
+        }
+    }
 
     return true;
 }
@@ -123,6 +140,8 @@ void GameScene::lemmings() {
         PhysicsMaterial(0.1f, 1.0f, 0.0f));
     auto physicsBody2 = PhysicsBody::createBox(Size(5.0f, 8.0f),
         PhysicsMaterial(0.1f, 1.0f, 0.0f));
+    
+    
     mySprite = Sprite::create("perso.png", Rect(5, 0, 10, 8));
     mySprite->addComponent(physicsBody);
     mySprite->setScale(3.0);
@@ -137,6 +156,24 @@ void GameScene::lemmings() {
     //mySprite2->setTag(5);
     mySprite2->getPhysicsBody()->setContactTestBitmask(0xFFFFFFF);
     mySprite2->getPhysicsBody()->setDynamic(true);
+
+    //for (int p = 0; p < 100; p++)
+    //{
+    //    auto physicsPerso = PhysicsBody::createBox(Size(5.0f, 8.0f),
+    //        PhysicsMaterial(0.1f, 1.0f, 0.0f));
+    //    perso.push_back(Sprite::create("perso.png", Rect(5, 0, 10, 8)));
+    //    perso[p]->addComponent(physicsPerso);
+    //    perso[p]->setScale(3.0);
+    //    perso[p]->setTag(10);
+    //    perso[p]->getPhysicsBody()->setContactTestBitmask(0xFFFFFF0F);
+    //    perso[p]->getPhysicsBody()->setDynamic(true);
+    //    perso[p]->getPhysicsBody()->setMass(50);
+    //    perso[p]->getPhysicsBody()->setRotationEnable(false);
+    //    perso[p]->setPosition(Vec2(500, 400));
+    //    this->addChild(perso[p], 0);
+    //    perso[p]->getPhysicsBody()->setVelocity(Vec2(50+p, -5));
+    //}
+
 
 
     if (mySprite == nullptr)
@@ -154,11 +191,32 @@ void GameScene::lemmings() {
 
     }
     scheduleUpdate();
+ 
 }
+
 
 
 void GameScene::Explosion(Ref* pSender) {
     auto lemmingsRect = mySprite->getBoundingBox();
+    switch (i) {
+    case 4:
+        for (int i = 0; i < 32; ++i)
+        {
+            for (int j = 0; j < 24; ++j)
+            {
+                tile = layer->getTileAt(Vec2(i, j));
+                if (tile != nullptr)
+                {
+                    auto tileRect = tile->getBoundingBox();
+                    if (tileRect.intersectsRect(lemmingsRect)){
+                        layer->removeTileAt(Vec2(i, j));
+                    }
+                }
+            }
+        }
+    default:
+        break;
+    }
     for (int i = 0; i < 32; ++i)
     {
         for (int j = 0; j < 24; ++j)
@@ -187,8 +245,36 @@ void GameScene::Ladder(cocos2d::Ref* pSender)
 {
 }
 
+void GameScene::SpawnLemmings()
+{
+    if (persoCount < 100)
+    {
+
+        auto physicsPerso2 = PhysicsBody::createBox(Size(5.0f, 8.0f),
+            PhysicsMaterial(0.1f, 1.0f, 0.0f));
+        perso2.push_back(Sprite::create("perso.png", Rect(5, 0, 10, 8)));
+        perso2[persoCount]->addComponent(physicsPerso2);
+        perso2[persoCount]->setScale(3.0);
+        perso2[persoCount]->setTag(10);
+        perso2[persoCount]->getPhysicsBody()->setContactTestBitmask(0xFFFFFF0F);
+        perso2[persoCount]->getPhysicsBody()->setDynamic(true);
+        perso2[persoCount]->getPhysicsBody()->setMass(50);
+        perso2[persoCount]->getPhysicsBody()->setRotationEnable(false);
+        perso2[persoCount]->setPosition(Vec2(300, 500));
+        this->addChild(perso2[persoCount], 0);
+        perso2[persoCount]->getPhysicsBody()->setVelocity(Vec2(50 + persoCount, 0));
+        persoCount++;
+    }
+}
 void GameScene::update(float dt)
 {
+    chrono += dt;
+    if (chrono > 0.5)
+    {
+        SpawnLemmings();
+        chrono = 0;
+    }
+    
     if (CanMove == true)
     {
         auto position = mySprite->getPositionX();

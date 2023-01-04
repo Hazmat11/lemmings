@@ -21,15 +21,19 @@ public:
     void lemmings();
     void update(float dt);
     bool onContactBegin(cocos2d::PhysicsContact& contact);
+    void HUDSelector(cocos2d::Ref* pSender);
+    void GameScene::SpawnLemmings(void);
     void Explosion(cocos2d::Ref* pSender);
     void Mining(cocos2d::Ref* pSender);
     void Miningfront(cocos2d::Ref* pSender);
     void Ladder(cocos2d::Ref* pSender);
 
 
+    std::vector<cocos2d::Sprite*> perso2;
     cocos2d::Sprite* mySprite;
     cocos2d::Sprite* tile;
     cocos2d::Sprite* mySprite2;
+    std::vector<cocos2d::Sprite*> perso;
     cocos2d::TMXTiledMap* map;
     cocos2d::TMXLayer* layer;
     cocos2d::Vec2 origin;
@@ -44,7 +48,8 @@ public:
 
     bool CanMove = true;
     int i;
-
+    int persoCount = 0;
+    float chrono = 0;
     std::vector<std::string> imageLocation;
     std::vector<cocos2d::MenuItemImage*> hud;
 
