@@ -233,7 +233,12 @@ void GameScene::lemmings() {
     scheduleUpdate();
 }
 
+<<<<<<< HEAD
 void GameScene::HUDSelection(Ref* pSender) {
+=======
+
+void GameScene::test(Ref* pSender) {
+>>>>>>> 7be97cd3e44c17732ac1eff0df6e41edbfe7a0a8
     auto lemmingsRect = mySprite->getBoundingBox();
 =======
 void GameScene::test(Ref* pSender) {

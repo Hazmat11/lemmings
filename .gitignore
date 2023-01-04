@@ -8,9 +8,12 @@
 /cocos2d/metal-support-22.zip
 /.vs
 /out/build/x64-Debug
+<<<<<<< HEAD
 /proj.win32/bin/MyGame/Release
 /proj.win32/Release
 /proj.win32/engine/cocos/core/cocos2d.dir/Release
 /proj.win32/lib/Release
 /proj.win32/MyGame.dir/Release
 /proj.win32/Win32/Release
+=======
+>>>>>>> 7be97cd3e44c17732ac1eff0df6e41edbfe7a0a8
