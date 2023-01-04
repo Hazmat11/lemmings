@@ -69,8 +69,8 @@ void GameScene::HUD() {
     hud = {
     hud1 = MenuItemImage::create(imageLocation[0], imageLocation[0], CC_CALLBACK_1(GameScene::Mining, this)),
     hud2 = MenuItemImage::create(imageLocation[1], imageLocation[1], CC_CALLBACK_1(GameScene::Explosion, this)),
-    hud3 = MenuItemImage::create(imageLocation[2], imageLocation[2], CC_CALLBACK_1(GameScene::Miningfront, this)),
-    hud4 = MenuItemImage::create(imageLocation[3], imageLocation[3], CC_CALLBACK_1(GameScene::Ladder, this)),
+    hud3 = MenuItemImage::create(imageLocation[2], imageLocation[2], CC_CALLBACK_1(GameScene::Ladder, this)),
+    hud4 = MenuItemImage::create(imageLocation[3], imageLocation[3], CC_CALLBACK_1(GameScene::Miningfront, this)),
     };
     for (i = 0; i < 4; i++) {
         float x = origin.x + visibleSize.width / 2 + hud[i]->getContentSize().width * i - 40;
