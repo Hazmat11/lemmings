@@ -86,26 +86,10 @@ void GameScene::HUD() {
     hud = {
     hud1 = MenuItemImage::create(imageLocation[0], imageLocation[0], CC_CALLBACK_1(GameScene::Mining, this)),
     hud2 = MenuItemImage::create(imageLocation[1], imageLocation[1], CC_CALLBACK_1(GameScene::Explosion, this)),
-    hud3 = MenuItemImage::create(imageLocation[2], imageLocation[2], CC_CALLBACK_1(GameScene::Miningfront, this)),
-    hud4 = MenuItemImage::create(imageLocation[3], imageLocation[3], CC_CALLBACK_1(GameScene::Ladder, this)),
+    hud3 = MenuItemImage::create(imageLocation[2], imageLocation[2], CC_CALLBACK_1(GameScene::Ladder, this)),
+    hud4 = MenuItemImage::create(imageLocation[3], imageLocation[3], CC_CALLBACK_1(GameScene::Miningfront, this)),
     };
     for (i = 0; i < 4; i++) {
-        auto hud = MenuItemImage::create(imageLocation[i], imageLocation[i], CC_CALLBACK_1(GameScene::HUDSelector, this));
-
-        if (hud == nullptr ||
-            hud->getContentSize().width <= 0 ||
-            hud->getContentSize().height <= 0)
-        {
-            problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-        }
-        else
-        {
-            float x = origin.x + visibleSize.width / 2 + hud->getContentSize().width * i - 40;
-            float y = origin.y + hud->getContentSize().height / 2;
-            hud->setPosition(Vec2(x, y));
-        }
-
-        auto play = Menu::create(hud, NULL);
         float x = origin.x + visibleSize.width / 2 + hud[i]->getContentSize().width * i - 40;
         float y = origin.y + hud[i]->getContentSize().height / 2;
         hud[i]->setPosition(Vec2(x, y));
@@ -211,7 +195,7 @@ void GameScene::lemmings() {
 }
 
 
-void GameScene::HUDSelector(Ref* pSender) {
+
 void GameScene::Explosion(Ref* pSender) {
     auto lemmingsRect = mySprite->getBoundingBox();
     switch (i) {
