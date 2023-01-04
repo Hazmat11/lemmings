@@ -6,3 +6,11 @@
 /proj.win32/MyGame.dir/Debug
 /proj.win32/Win32/Debug
 /cocos2d/metal-support-22.zip
+/.vs
+/out/build/x64-Debug
+/proj.win32/bin/MyGame/Release
+/proj.win32/Release
+/proj.win32/engine/cocos/core/cocos2d.dir/Release
+/proj.win32/lib/Release
+/proj.win32/MyGame.dir/Release
+/proj.win32/Win32/Release
