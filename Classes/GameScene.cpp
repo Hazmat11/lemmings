@@ -145,46 +145,6 @@ void GameScene::lemmings() {
         this->addChild(sprite, 0);
     }
 
-    /// ///////////////////////////////
-
-    auto physicsBody = PhysicsBody::createBox(Size(5.0f, 8.0f),
-        PhysicsMaterial(0.1f, 1.0f, 0.0f));
-    auto physicsBody2 = PhysicsBody::createBox(Size(5.0f, 8.0f),
-        PhysicsMaterial(0.1f, 1.0f, 0.0f));
-    
-    
-    mySprite = Sprite::create("perso.png", Rect(5, 0, 10, 8));
-    mySprite->addComponent(physicsBody);
-    mySprite->setScale(3.0);
-    mySprite->setTag(10);
-    mySprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-    mySprite->getPhysicsBody()->setDynamic(true);
-    mySprite->getPhysicsBody()->setMass(500);
-    mySprite->getPhysicsBody()->setRotationEnable(false);
-    mySprite2 = Sprite::create("perso.png", Rect(5, 0, 10, 8));
-    mySprite2->addComponent(physicsBody2);
-    mySprite2->setScale(3.0);
-    //mySprite2->setTag(5);
-    mySprite2->getPhysicsBody()->setContactTestBitmask(0xFFFFFFF);
-    mySprite2->getPhysicsBody()->setDynamic(true);
-
-    if (mySprite == nullptr)
-    {
-        problemLoading("'perso.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        mySprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-        mySprite2->setPosition(Vec2(600, 400));
-        // add the sprite as a child to this layer
-        this->addChild(mySprite, 0);
-        this->addChild(mySprite2, 0);
-
-    }
-
-    /// ///////////////////////////////
-
     scheduleUpdate();
  
 }
