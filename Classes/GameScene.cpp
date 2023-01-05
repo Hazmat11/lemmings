@@ -47,7 +47,7 @@ bool GameScene::init()
             if (tile != nullptr)
             {
                 PhysicsBody* physicmap = PhysicsBody::createBox(Size(32, 32),
-                    PhysicsMaterial(0.1f, 0.5f, 0.0f));
+                    PhysicsMaterial(0.1f, 0.2f, 0.0f));
                 physicmap->setDynamic(false);
                 physicmap->setTag(1);
 
@@ -189,12 +189,12 @@ void GameScene::Miningfront(cocos2d::Ref* pSender)
         {
             for (int j = 0; j < 24; ++j)
             {
-                tile = layerground->getTileAt(Vec2(i, j));
+                tile = layerwall->getTileAt(Vec2(i, j));
                 if (tile != nullptr)
                 {
                     auto tileRect = tile->getBoundingBox();
                     if (tileRect.intersectsRect(lemmingsRect)) {
-                        layerground->removeTileAt(Vec2(i, j));
+                        layerwall->removeTileAt(Vec2(i, j));
                     }
                 }
             }

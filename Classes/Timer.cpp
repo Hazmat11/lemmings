@@ -36,8 +36,9 @@ bool TimerCountDown::init()
 void TimerCountDown::update(float delta) {
     if (timeCounter > 1.f) {
         timeCounter -= delta;
+        auto val2 = trunc(timeCounter);
         std::string val;
-        val += std::to_string(ceilf(timeCounter));
+        val += std::to_string(ceilf(val2));
         timertxt->setString(val);
     }
     if (timeCounter <= 0) {

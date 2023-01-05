@@ -1,0 +1,3 @@
+﻿  Building Custom Rule Z:/MyCompany/MyGame/cocos2d/external/md5/CMakeLists.txt
+  md5.c
+  ext_md5.vcxproj -> Z:\MyCompany\MyGame\proj.win32\lib\Release\ext_md5.lib

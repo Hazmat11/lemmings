@@ -1,0 +1,8 @@
+﻿  Building Custom Rule Z:/MyCompany/MyGame/cocos2d/external/poly2tri/CMakeLists.txt
+  shapes.cc
+  sweep.cc
+  sweep_context.cc
+  cdt.cc
+  advancing_front.cc
+  Génération de code en cours...
+  ext_poly2tri.vcxproj -> Z:\MyCompany\MyGame\proj.win32\lib\Release\ext_poly2tri.lib

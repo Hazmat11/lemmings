@@ -1,0 +1,3 @@
+﻿  Building Custom Rule Z:/MyCompany/MyGame/cocos2d/external/xxtea/CMakeLists.txt
+  xxtea.cpp
+  ext_xxtea.vcxproj -> Z:\MyCompany\MyGame\proj.win32\lib\Release\ext_xxtea.lib
