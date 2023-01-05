@@ -1,6 +1,6 @@
 #ifndef GAME_SCENE
 #define GAME_SCENE
-#define nbLemmings 5
+#define nbLemmings 50
 
 #include "cocos2d.h"
 #include "Timer.h"

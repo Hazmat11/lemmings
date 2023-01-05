@@ -47,7 +47,7 @@ bool GameScene::init()
             if (tile != nullptr)
             {
                 PhysicsBody* physicmap = PhysicsBody::createBox(Size(32, 32),
-                    PhysicsMaterial(0.1f, 1.0f, 0.0f));
+                    PhysicsMaterial(0.1f, 0.5f, 0.0f));
                 physicmap->setDynamic(false);
                 physicmap->setTag(1);
 
@@ -159,7 +159,7 @@ void GameScene::lemmings() {
     mySprite->setTag(10);
     mySprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
     mySprite->getPhysicsBody()->setDynamic(true);
-    mySprite->getPhysicsBody()->setMass(50);
+    mySprite->getPhysicsBody()->setMass(500);
     mySprite->getPhysicsBody()->setRotationEnable(false);
     mySprite2 = Sprite::create("perso.png", Rect(5, 0, 10, 8));
     mySprite2->addComponent(physicsBody2);
@@ -242,11 +242,11 @@ void GameScene::SpawnLemmings()
         Player[persoCount]->setTag(10);
         Player[persoCount]->getPhysicsBody()->setContactTestBitmask(0xFFFFFF0F);
         Player[persoCount]->getPhysicsBody()->setDynamic(true);
-        Player[persoCount]->getPhysicsBody()->setMass(50);
+        Player[persoCount]->getPhysicsBody()->setMass(10);
         Player[persoCount]->getPhysicsBody()->setRotationEnable(false);
-        Player[persoCount]->setPosition(Vec2(300, 500));
+        Player[persoCount]->setPosition(Vec2(250, 750));
         this->addChild(Player[persoCount], 0);
-        Player[persoCount]->getPhysicsBody()->setVelocity(Vec2(10, 0));
+        Player[persoCount]->getPhysicsBody()->setVelocity(Vec2(0, 0));
         lemmingsPos = Player[persoCount]->getBoundingBox();
         persoCount++;
     }
@@ -260,9 +260,22 @@ void GameScene::update(float dt)
         chrono = 0;
     }
 
-    if (CanMove == true)
+    for (int x = 0; x < persoCount; x++)
     {
-        auto position = mySprite->getPositionX();
+        if (Player[x]->getPhysicsBody()->getVelocity().y == 0)
+        {
+            if (Player[x]->getPhysicsBody()->getVelocity().x < 0)
+            {
+                Player[x]->getPhysicsBody()->setVelocity(Vec2(-50, 5));
+            }
+            else if (Player[x]->getPhysicsBody()->getVelocity().x > 0)
+            {
+                Player[x]->getPhysicsBody()->setVelocity(Vec2(50, 5));
+            }
+        }
+        
+        
+
     }
 
     auto listener = EventListenerMouse::create();
@@ -305,11 +318,17 @@ bool GameScene::onContactBegin(PhysicsContact& contact)
         {
             if (nodeB->getTag() == 10 )
             {
-                nodeB->getPhysicsBody()->setVelocity(Vec2(50, -10));
+                if (nodeB->getPhysicsBody()->getVelocity().x == 0)
+                {
+                nodeB->getPhysicsBody()->setVelocity(Vec2(50, 5));
+                }
             }
             if (nodeA->getTag() == 10)
             {
-                nodeA->getPhysicsBody()->setVelocity(Vec2(50, -10));
+                if (nodeA->getPhysicsBody()->getVelocity().x == 0)
+                {
+                    nodeA->getPhysicsBody()->setVelocity(Vec2(50, 5));
+                }
             }
             
             
