@@ -24,7 +24,7 @@ bool GameScene::init()
     }
 
     auto pause = Pause::create();
-    addChild(pause,2);
+    addChild(pause,3);
     auto speedup = Accelerate::create();
     addChild(speedup,2);
 
@@ -122,7 +122,7 @@ void GameScene::rectMenu() {
 
 void GameScene::lemmings() {
     initWithPhysics();
-    this->getPhysicsWorld()->setDebugDrawMask(true);
+    //this->getPhysicsWorld()->setDebugDrawMask(true);
 
     //add contact event listener
     contactListener = EventListenerPhysicsContact::create();
@@ -154,6 +154,8 @@ void GameScene::Explosion(Ref* pSender) {
     selectionMode();
     if (mySprite != nullptr) {
         auto lemmingsRect = mySprite->getBoundingBox();
+        lemmingsRect.size.width *= 3;
+        std::cout << "merde";
         for (int i = 0; i < 32; ++i)
         {
             for (int j = 0; j < 24; ++j)
@@ -178,6 +180,27 @@ void GameScene::Mining(cocos2d::Ref* pSender)
 
 void GameScene::Miningfront(cocos2d::Ref* pSender)
 {
+    selectionMode();
+    if (mySprite != nullptr) {
+        auto lemmingsRect = mySprite->getBoundingBox();
+        lemmingsRect.size.width *= 3;
+        lemmingsRect.origin.y += 5 ;
+        std::cout << "merde";
+        for (int i = 0; i < 32; ++i)
+        {
+            for (int j = 0; j < 24; ++j)
+            {
+                tile = layerground->getTileAt(Vec2(i, j));
+                if (tile != nullptr)
+                {
+                    auto tileRect = tile->getBoundingBox();
+                    if (tileRect.intersectsRect(lemmingsRect)) {
+                        layerground->removeTileAt(Vec2(i, j));
+                    }
+                }
+            }
+        }
+    }
 }
 
 void GameScene::Ladder(cocos2d::Ref* pSender)
