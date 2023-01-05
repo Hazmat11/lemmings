@@ -49,6 +49,8 @@ bool GameScene::init()
                 PhysicsBody* physicmap = PhysicsBody::createBox(Size(32, 32),
                     PhysicsMaterial(0.1f, 1.0f, 0.0f));
                 physicmap->setDynamic(false);
+                physicmap->setTag(1);
+
                 tile->addComponent(physicmap);
                 tile->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
             }
@@ -66,12 +68,18 @@ bool GameScene::init()
                 PhysicsBody* physicmap = PhysicsBody::createBox(Size(32, 32),
                     PhysicsMaterial(0.1f, 1.0f, 0.0f));
                 physicmap->setDynamic(false);
+                physicmap->setTag(1);
                 tile->addComponent(physicmap);
                 tile->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
             }
 
         }
     }
+    auto edgeBody = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
+    auto edgeNode = Node::create();
+    edgeNode->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y ));
+    edgeNode->setPhysicsBody(edgeBody);
+    this->addChild(edgeNode);
 
     return true;
 }
@@ -289,13 +297,23 @@ bool GameScene::onContactBegin(PhysicsContact& contact)
 
     if (nodeA && nodeB)
     {
-        if (nodeA->getTag() == 10)
+        if (nodeA->getTag() == 10 && nodeB->getTag() == 10)
         {
-            CanMove = false;
-            mySprite->getPhysicsBody()->setVelocity(Vec2(50, -5));
+            return false;
         }
-        else if (nodeB->getTag() == 10)
+        else 
         {
+            if (nodeB->getTag() == 10 )
+            {
+                nodeB->getPhysicsBody()->setVelocity(Vec2(50, -10));
+            }
+            if (nodeA->getTag() == 10)
+            {
+                nodeA->getPhysicsBody()->setVelocity(Vec2(50, -10));
+            }
+            
+            
+            return true;
         }
     }
 
