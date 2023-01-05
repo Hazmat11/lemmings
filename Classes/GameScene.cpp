@@ -37,7 +37,7 @@ bool GameScene::init()
     lemmings();
 
     map = TMXTiledMap::create("map.tmx");
-    this->addChild(map, 0, 99);
+    this->addChild(map, 2, 99);
     layerground = map->getLayer("grd 1");
     for (int i = 0; i < 32; ++i)
     {
@@ -47,8 +47,10 @@ bool GameScene::init()
             if (tile != nullptr)
             {
                 PhysicsBody* physicmap = PhysicsBody::createBox(Size(32, 32),
-                    PhysicsMaterial(0.1f, 1.0f, 0.0f));
+                    PhysicsMaterial(0.1f, 0.5f, 0.0f));
                 physicmap->setDynamic(false);
+                physicmap->setTag(1);
+
                 tile->addComponent(physicmap);
                 tile->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
             }
@@ -66,12 +68,18 @@ bool GameScene::init()
                 PhysicsBody* physicmap = PhysicsBody::createBox(Size(32, 32),
                     PhysicsMaterial(0.1f, 1.0f, 0.0f));
                 physicmap->setDynamic(false);
+                physicmap->setTag(1);
                 tile->addComponent(physicmap);
                 tile->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
             }
 
         }
     }
+    auto edgeBody = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
+    auto edgeNode = Node::create();
+    edgeNode->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y ));
+    edgeNode->setPhysicsBody(edgeBody);
+    this->addChild(edgeNode);
 
     return true;
 }
@@ -145,7 +153,6 @@ void GameScene::lemmings() {
 void GameScene::Explosion(Ref* pSender) {
     selectionMode();
     if (mySprite != nullptr) {
-        mySprite->getPhysicsBody()->setVelocity(Vec2(5000, 0));
         auto lemmingsRect = mySprite->getBoundingBox();
         for (int i = 0; i < 32; ++i)
         {
@@ -158,7 +165,7 @@ void GameScene::Explosion(Ref* pSender) {
                     if (tileRect.intersectsRect(lemmingsRect)) {
                         layerground->removeTileAt(Vec2(i, j));
                     }
-                    mySprite->removeAllChildren();
+                    mySprite->setOpacity(0);
                 }
             }
         }
@@ -175,13 +182,29 @@ void GameScene::Miningfront(cocos2d::Ref* pSender)
 
 void GameScene::Ladder(cocos2d::Ref* pSender)
 {
+    selectionMode();
+    if (mySprite != nullptr) {
+        auto lemmingsRect = mySprite->getBoundingBox();
+        auto lemmingsPos = mySprite->getPosition();
+        auto ladder = Sprite::create("block.png");
+        ladder->setPosition((lemmingsPos.x + 30), lemmingsPos.y - 23);
+        ladder->getPhysicsBody();
+        auto physicsBlock = PhysicsBody::createBox(Size(40.0f, 20.0f),
+            PhysicsMaterial(0.1f, 1.0f, 0.0f));
+        ladder->addComponent(physicsBlock);
+        ladder->getPhysicsBody()->setContactTestBitmask(0xFFFFFF0F);
+        ladder->getPhysicsBody()->setDynamic(false);
+        ladder->getPhysicsBody()->setRotationEnable(false);
+        this->addChild(ladder, 1);
+    }
 }
 
 void GameScene::selectionMode()
 {
-    for (int a = 0; a < persoCount; a++) {
+    for (a = 0; a < persoCount; a++) {
         if (Player[a]->getTag() == 1) {
             mySprite = Player[a];
+
             break;
         }
     }
@@ -191,7 +214,7 @@ void GameScene::SpawnLemmings()
 {
     if (persoCount < nbLemmings)
     {
-        auto physicsPlayer = PhysicsBody::createBox(Size(5.0f, 8.0f),
+        physicsPlayer = PhysicsBody::createBox(Size(5.0f, 8.0f),
             PhysicsMaterial(0.1f, 1.0f, 0.0f));
         Player.push_back(Sprite::create("perso.png", Rect(5, 0, 10, 8)));
         Player[persoCount]->addComponent(physicsPlayer);
@@ -199,11 +222,11 @@ void GameScene::SpawnLemmings()
         Player[persoCount]->setTag(10);
         Player[persoCount]->getPhysicsBody()->setContactTestBitmask(0xFFFFFF0F);
         Player[persoCount]->getPhysicsBody()->setDynamic(true);
-        Player[persoCount]->getPhysicsBody()->setMass(50);
+        Player[persoCount]->getPhysicsBody()->setMass(10);
         Player[persoCount]->getPhysicsBody()->setRotationEnable(false);
-        Player[persoCount]->setPosition(Vec2(300, 500));
+        Player[persoCount]->setPosition(Vec2(250, 750));
         this->addChild(Player[persoCount], 0);
-        Player[persoCount]->getPhysicsBody()->setVelocity(Vec2(10, 0));
+        Player[persoCount]->getPhysicsBody()->setVelocity(Vec2(0, 0));
         persoCount++;
     }
 }
@@ -215,6 +238,29 @@ void GameScene::update(float dt)
         SpawnLemmings();
         chrono = 0;
     }
+
+    for (int x = 0; x < persoCount; x++)
+    {
+        if (Player[x]->getTag() == 1) {
+            Player[x]->setColor(Color3B::GREEN);
+        }
+        if (Player[x]->getTag() == 0) {
+            Player[x]->setColor(Color3B::WHITE);
+        }
+        if (Player[x]->getPhysicsBody()->getVelocity().y == 0)
+        {
+            if (Player[x]->getPhysicsBody()->getVelocity().x < 0)
+            {
+                Player[x]->getPhysicsBody()->setVelocity(Vec2(-50, 5));
+            }
+            else if (Player[x]->getPhysicsBody()->getVelocity().x > 0)
+            {
+                Player[x]->getPhysicsBody()->setVelocity(Vec2(50, 5));
+            }
+        }
+    }
+
+ 
 
     auto listener = EventListenerMouse::create();
 
@@ -238,11 +284,12 @@ void GameScene::onMouseUp(Event* event)
     auto val = worldHeight - p.y;
 
     for (int a = 0; a < persoCount; a++) {
+        Player[a]->setTag(0);
         auto lemmingsPos = Player[a]->getBoundingBox();
-        if (lemmingsPos.containsPoint(Vec2(p.x,(worldHeight - p.y)))) {
-            Player[a]->setTag(1);
-            Player[a]->setColor(Color3B::GREEN);
+        if (lemmingsPos.containsPoint(Vec2(p.x, (worldHeight - p.y)))) {
+            Player[a]->setTag(1);          
         }
+
     }
 }
 
@@ -253,12 +300,29 @@ bool GameScene::onContactBegin(PhysicsContact& contact)
 
     if (nodeA && nodeB)
     {
-        if (nodeA->getTag() == 10)
+        if (nodeA->getTag() == 10 && nodeB->getTag() == 10)
         {
-            CanMove = false;
+            return false;
         }
-        else if (nodeB->getTag() == 10)
+        else 
         {
+            if (nodeB->getTag() == 10 )
+            {
+                if (nodeB->getPhysicsBody()->getVelocity().x == 0)
+                {
+                nodeB->getPhysicsBody()->setVelocity(Vec2(50, 5));
+                }
+            }
+            if (nodeA->getTag() == 10)
+            {
+                if (nodeA->getPhysicsBody()->getVelocity().x == 0)
+                {
+                    nodeA->getPhysicsBody()->setVelocity(Vec2(50, 5));
+                }
+            }
+            
+            
+            return true;
         }
     }
 

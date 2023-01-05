@@ -1,6 +1,6 @@
 #ifndef GAME_SCENE
 #define GAME_SCENE
-#define nbLemmings 5
+#define nbLemmings 3
 
 #include "cocos2d.h"
 #include "Timer.h"
@@ -48,9 +48,12 @@ public:
     cocos2d::MenuItemImage* hud2;
     cocos2d::MenuItemImage* hud3;
     cocos2d::MenuItemImage* hud4;
+    cocos2d::PhysicsBody* physicsPlayer;
 
     bool CanMove = true;
+    bool alreadySelected;
     int i;
+    int a;
     int worldHeight = 768;
     int persoCount = 0;
     float chrono = 0;
