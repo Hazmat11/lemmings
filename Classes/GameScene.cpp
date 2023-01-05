@@ -144,17 +144,21 @@ void GameScene::lemmings() {
 
 void GameScene::Explosion(Ref* pSender) {
     selectionMode();
-    auto lemmingsRect = mySprite->getBoundingBox();
-    for (int i = 0; i < 32; ++i)
-    {
-        for (int j = 0; j < 24; ++j)
+    if (mySprite != nullptr) {
+        mySprite->getPhysicsBody()->setVelocity(Vec2(5000, 0));
+        auto lemmingsRect = mySprite->getBoundingBox();
+        for (int i = 0; i < 32; ++i)
         {
-            tile = layerground->getTileAt(Vec2(i, j));
-            if (tile != nullptr)
+            for (int j = 0; j < 24; ++j)
             {
-                auto tileRect = tile->getBoundingBox();
-                if (tileRect.intersectsRect(lemmingsRect)) {
-                    layerground->removeTileAt(Vec2(i, j));
+                tile = layerground->getTileAt(Vec2(i, j));
+                if (tile != nullptr)
+                {
+                    auto tileRect = tile->getBoundingBox();
+                    if (tileRect.intersectsRect(lemmingsRect)) {
+                        layerground->removeTileAt(Vec2(i, j));
+                    }
+                    mySprite->removeAllChildren();
                 }
             }
         }
@@ -178,8 +182,6 @@ void GameScene::selectionMode()
     for (int a = 0; a < persoCount; a++) {
         if (Player[a]->getTag() == 1) {
             mySprite = Player[a];
-        }
-        else {
             break;
         }
     }
