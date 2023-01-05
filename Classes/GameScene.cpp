@@ -183,9 +183,8 @@ void GameScene::Miningfront(cocos2d::Ref* pSender)
     selectionMode();
     if (mySprite != nullptr) {
         auto lemmingsRect = mySprite->getBoundingBox();
-        lemmingsRect.size.width *= 3;
+        lemmingsRect.size.width *= 2;
         lemmingsRect.origin.y += 5 ;
-        std::cout << "merde";
         for (int i = 0; i < 32; ++i)
         {
             for (int j = 0; j < 24; ++j)
@@ -282,8 +281,6 @@ void GameScene::update(float dt)
             }
         }
     }
-
- 
 
     auto listener = EventListenerMouse::create();
 
