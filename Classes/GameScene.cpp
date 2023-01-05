@@ -136,47 +136,6 @@ void GameScene::lemmings() {
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }
-
-    /// ///////////////////////////////
-
-    auto physicsBody = PhysicsBody::createBox(Size(5.0f, 8.0f),
-        PhysicsMaterial(0.1f, 1.0f, 0.0f));
-    auto physicsBody2 = PhysicsBody::createBox(Size(5.0f, 8.0f),
-        PhysicsMaterial(0.1f, 1.0f, 0.0f));
-    
-    
-    mySprite = Sprite::create("perso.png", Rect(5, 0, 10, 8));
-    mySprite->addComponent(physicsBody);
-    mySprite->setScale(3.0);
-    mySprite->setTag(10);
-    mySprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-    mySprite->getPhysicsBody()->setDynamic(true);
-    mySprite->getPhysicsBody()->setMass(50);
-    mySprite->getPhysicsBody()->setRotationEnable(false);
-    mySprite2 = Sprite::create("perso.png", Rect(5, 0, 10, 8));
-    mySprite2->addComponent(physicsBody2);
-    mySprite2->setScale(3.0);
-    //mySprite2->setTag(5);
-    mySprite2->getPhysicsBody()->setContactTestBitmask(0xFFFFFFF);
-    mySprite2->getPhysicsBody()->setDynamic(true);
-
-    if (mySprite == nullptr)
-    {
-        problemLoading("'perso.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        mySprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-        mySprite2->setPosition(Vec2(600, 400));
-        // add the sprite as a child to this layer
-        this->addChild(mySprite, 0);
-        this->addChild(mySprite2, 0);
-
-    }
-
-    /// ///////////////////////////////
-
     scheduleUpdate();
  
 }
@@ -216,9 +175,13 @@ void GameScene::Ladder(cocos2d::Ref* pSender)
 
 void GameScene::selectionMode()
 {
-    for (int a = 0;a < nbLemmings; a++ )
-    {
-        Player[a]->getBoundingBox();        
+    for (int a = 0; a < persoCount; a++) {
+        if (Player[a]->getTag() == 1) {
+            mySprite = Player[a];
+        }
+        else {
+            break;
+        }
     }
 }
 
@@ -239,7 +202,6 @@ void GameScene::SpawnLemmings()
         Player[persoCount]->setPosition(Vec2(300, 500));
         this->addChild(Player[persoCount], 0);
         Player[persoCount]->getPhysicsBody()->setVelocity(Vec2(10, 0));
-        lemmingsPos = Player[persoCount]->getBoundingBox();
         persoCount++;
     }
 }
@@ -252,19 +214,10 @@ void GameScene::update(float dt)
         chrono = 0;
     }
 
-    if (CanMove == true)
-    {
-        auto position = mySprite->getPositionX();
-    }
-
     auto listener = EventListenerMouse::create();
 
     _eventDispatcher->addEventListenerWithFixedPriority(listener, 1);
-    listener->onMouseMove = CC_CALLBACK_1(GameScene::onMouseUp, this);
-
-    if (lemmingsPos.containsPoint(p) && Player.size() > 1) {
-        std::cout << "nothings";
-    }
+    listener->onMouseUp = CC_CALLBACK_1(GameScene::onMouseUp, this);
 }
 
 void GameScene::onMouseUp(Event* event)
@@ -273,13 +226,22 @@ void GameScene::onMouseUp(Event* event)
     switch (e->getMouseButton()) {
     case EventMouse::MouseButton::BUTTON_LEFT:
     {
-        auto p = e->getLocation();
-        std::cout << "nul";
+        p = e->getLocation();
         break;
     }
     default:
         break;
     };
+
+    auto val = worldHeight - p.y;
+
+    for (int a = 0; a < persoCount; a++) {
+        auto lemmingsPos = Player[a]->getBoundingBox();
+        if (lemmingsPos.containsPoint(Vec2(p.x,(worldHeight - p.y)))) {
+            Player[a]->setTag(1);
+            Player[a]->setColor(Color3B::GREEN);
+        }
+    }
 }
 
 bool GameScene::onContactBegin(PhysicsContact& contact)
@@ -292,7 +254,6 @@ bool GameScene::onContactBegin(PhysicsContact& contact)
         if (nodeA->getTag() == 10)
         {
             CanMove = false;
-            mySprite->getPhysicsBody()->setVelocity(Vec2(50, -5));
         }
         else if (nodeB->getTag() == 10)
         {

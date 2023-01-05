@@ -51,6 +51,7 @@ public:
 
     bool CanMove = true;
     int i;
+    int worldHeight = 768;
     int persoCount = 0;
     float chrono = 0;
     std::vector<std::string> imageLocation;
